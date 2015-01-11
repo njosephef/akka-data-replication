@@ -182,6 +182,16 @@ case class ORSet(
     copy(elements = elements - element)
 
   /**
+   * Removes all elements from the set, but keeps the history.
+   */
+  def clear(node: Cluster): ORSet = clear(node.selfUniqueAddress)
+
+  /**
+   * INTERNAL API
+   */
+  private[akka] def clear(node: UniqueAddress): ORSet = copy(elements = Map.empty)
+
+  /**
    * When element is in this Set but not in that Set:
    * Compare the "birth dot" of the present element to the clock in the Set it is absent from.
    * If the element dot is not "seen" by other Set clock, that means the other set has yet to
